@@ -112,3 +112,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+downloaded_data/
+
+preprocessing/dump
+
+preprocessing/data
