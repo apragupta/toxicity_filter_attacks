@@ -279,9 +279,9 @@ def dumpClassificationData(fn="Anonymized_Sentences_Classified.csv", random_spli
     pos_corpus_file.close()
 
 
-if __name__ == "__main__":
-    # dump preprocessed comments and sentences
-    dumpClassificationData(param.classification_dataset, random_split=False)
+# if __name__ == "__main__":
+#     # dump preprocessed comments and sentences
+#     #dumpClassificationData(param.classification_dataset, random_split=False)
 
 
 
