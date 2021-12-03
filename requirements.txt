@@ -1,0 +1,4 @@
+numpy<1.19.0
+jupyter
+tensorflow==1.15.5
+sklearn

@@ -32,7 +32,7 @@ def tuneThreshold(gold_scores, pred_scores):
 
 
 def evalFscore(train_gold_scores, train_pred_scores, test_gold_scores, test_pred_scores):
-    from  sklearn.metrics import f1_score
+    from sklearn.metrics import f1_score
     # threshold from train data
     threshold, _ = tuneThreshold(train_gold_scores, train_pred_scores)
     test_pred_labels = [int(s > threshold) for s in test_pred_scores]
