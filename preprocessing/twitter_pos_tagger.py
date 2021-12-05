@@ -18,7 +18,7 @@ def _split_results(rows):
                 yield tokens, tags, confidence
 
 
-def get_pos_of_filer(filepath):
+def get_pos_of_file(filepath):
     """
     Gets POS tags for each comment in the text file specified by filepath. filepath MUST BE THE RELATIVE PATH
     WRT jar file OTHERWISE WONT WORK

@@ -1,5 +1,6 @@
+import os
 from typing import List
-
+from preprocessing.twitter_pos_tagger import get_pos_of_file
 import numpy as np
 
 
@@ -51,3 +52,32 @@ def read_raw_comment_txt(file_path, encoding="utf8", verbose=True, print_n=2):
                 n = np.random.randint(0, len(comm_sent_list))
                 print(f"example comment (#{n}: {comm_sent_list[n]}")
         return comm_sent_list
+
+
+def gen_pos_tags(comment_list, dump_folder_name, out_pos_name):
+    tweet_pos_folder = os.path.join(dump_folder_name, "for_pos")
+    pos_comment_list = []
+    max_sent_num = 5000
+    ind = 0
+
+    while ind < len(comment_list):
+        comm_list = comment_list[ind: ind + max_sent_num]
+
+        # path of file to save newline seperated comments in
+        for_pos_filepath = os.path.join(tweet_pos_folder, out_pos_name)
+
+        # first, we write these tweets (newline seperated) into a text file
+        with open(for_pos_filepath, 'w', encoding="utf-8") as f:
+            for comm in comm_list:
+                f.write(str(comm + '\n'))
+
+        # then, we can run the pos tagger on that file and get the tags for each token
+        pos_tags = get_pos_of_file(for_pos_filepath)
+
+        # for each comment
+        pos_list = [comm[1] for comm in pos_tags]
+        pos_comment_list = pos_comment_list + pos_list
+
+        ind += max_sent_num
+
+    return pos_comment_list

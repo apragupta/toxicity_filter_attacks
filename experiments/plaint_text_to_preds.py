@@ -1,5 +1,7 @@
 from typing import List
-from experiments.plain_proccessing_util import read_raw_comment_txt
+
+import param
+from experiments.plain_proccessing_util import read_raw_comment_txt, gen_pos_tags
 from preprocessing.preproc_classification_data import clean_str, mapCommSent
 import preprocessor as preprocessor
 
@@ -26,6 +28,9 @@ tokenized_merged_comments_list = [preprocessor.tokenize(sent) for sent in merged
 cleaned_merged_comments_list = [clean_str(sent) for sent in merged_comments_list]
 
 # 1.f. Get POS data
+dump_folder_name = param.dump_folder
+out_pos_name = "processing_for_pos.txt"  # TODO: make unique?
+pos_for_comments_list = gen_pos_tags(cleaned_merged_comments_list, dump_folder_name, out_pos_name)
 
 # 2. Load the model
 # 3. Predict
