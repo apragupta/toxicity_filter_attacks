@@ -94,10 +94,8 @@ def scoreComments(model_path, data_type="test"):
     """
     vocabulary, pos_vocabulary, init_embed = data_helpers.loadVocabEmb()
     print("pos vocab size: {}".format(len(pos_vocabulary)))
-    x_test, length_test, attention_test, pos_test, pos_length_test, y_test = \
-            data_helpers.loadData(data_type)
-    test_scores = scoreUtil(init_embed, x_test, pos_test, y_test, \
-                               length_test, pos_length_test, model_path)
+    x_test, length_test, _, pos_test, pos_length_test, y_test = data_helpers.loadData(data_type)
+    test_scores = scoreUtil(init_embed, x_test, pos_test, y_test, length_test, pos_length_test, model_path)
     gold_scores = [s[0] for s in y_test]
     return gold_scores, test_scores
 
