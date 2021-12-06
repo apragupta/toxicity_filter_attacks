@@ -1,4 +1,5 @@
 import subprocess
+import os
 def _split_results(rows):
     """Parse the tab-delimited returned lines, modified from: https://github.com/brendano/ark-tweet-nlp/blob/master/scripts/show.py"""
     for line in rows:
@@ -25,9 +26,9 @@ def get_pos_of_file(filepath):
     :param filepath:
     :return:
     """
-
     p = subprocess.check_output(
-        f"java -XX:ParallelGCThreads=2 -Xmx500m -jar ark-tweet-nlp-0.3.2.jar {filepath}")
+        f"java -XX:ParallelGCThreads=2 -Xmx500m -jar preprocessing/ark-tweet-nlp-0.3.2.jar {filepath}")
+
 
     pos_result = p.decode('utf-8').strip('\n\n')  # get first line, remove final double carriage return
     pos_result = pos_result.split('\n\n')  # split messages by double carriage returns
@@ -35,4 +36,5 @@ def get_pos_of_file(filepath):
     pos_result = []
     for pos_raw_result in pos_raw_results:
         pos_result.append([x for x in _split_results(pos_raw_result)])
+
     return pos_result[0]
