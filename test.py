@@ -138,6 +138,14 @@ if __name__ == "__main__":
     # evaluate on test data
     test_gold_scores, test_pred_scores = scoreComments(model_path, data_type="test")
 
+
+    print("TRAIN METRICS: \n")
+    # roc auc
+    eval_helpers.evalROC(train_gold_scores, train_pred_scores)
+    # pr auc
+    eval_helpers.evalPR(train_gold_scores, train_pred_scores)
+
+    print("TEST METRICS: \n")
     # roc auc
     eval_helpers.evalROC(test_gold_scores, test_pred_scores)
     # pr auc

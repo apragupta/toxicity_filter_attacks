@@ -123,6 +123,9 @@ preprocessing/dump_2
 preprocessing/word_emb
 preprocessing/ark-tweet-nlp-0.3.2.jar
 
+experiments/data
+dump_2
+
 .DS_Store
 dump/
 model/*
