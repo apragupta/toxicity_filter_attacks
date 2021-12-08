@@ -126,3 +126,6 @@ preprocessing/ark-tweet-nlp-0.3.2.jar
 .DS_Store
 dump/
 model/*
+
+preprocessing/dump_pk/
+test_other_dump/

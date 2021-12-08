@@ -65,7 +65,7 @@ def load_data(dump_folder_path, data_type, verbose=True):
 
 def get_predictions(model_path, data_path):
     vocabulary, pos_vocabulary, init_embed = load_vocab()
-    x_test, length_test, attention_test, pos_test, pos_length_test, y_test = load_data(data_path, "test", verbose=False)
+    x_test, length_test, _, pos_test, pos_length_test, y_test = load_data(data_path, "test", verbose=False)
 
     with tf.Graph().as_default():
         session_conf = tf.ConfigProto(
@@ -126,7 +126,7 @@ if __name__ == '__main__':
     checkpoint_dir = os.path.abspath(os.path.join(model_folder_path, model_save_folder_name))
     model_path = os.path.join(checkpoint_dir, "best_model")
 
-    data_path = '../dump'
+    data_path = '../test_other_dump'
     print(f"Using data from {data_path}")
 
     predictions = get_predictions(model_path, data_path)
