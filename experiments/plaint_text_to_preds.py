@@ -26,7 +26,6 @@ merged_comments_list = [" ".join(sent_list) for sent_list in comments_list]
 tokenized_merged_comments_list = [preprocessor.tokenize(sent) for sent in merged_comments_list]
 # 1.e. Some other preprocessing? "clean_str"
 cleaned_merged_comments_list = [clean_str(sent) for sent in merged_comments_list]
-
 # 1.f. Get POS data
 dump_folder_name = param.dump_folder
 out_pos_name = "processing_for_pos.txt"  # TODO: make unique?

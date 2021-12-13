@@ -127,7 +127,7 @@ experiments/data
 dump_2
 
 .DS_Store
-dump/
+preprocessing/dump/
 model/*
 
 preprocessing/dump_pk/
