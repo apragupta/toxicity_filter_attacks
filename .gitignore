@@ -127,8 +127,16 @@ experiments/data
 dump_2
 
 .DS_Store
+
 preprocessing/dump/
 model/*
 
 preprocessing/dump_pk/
 test_other_dump/
+
+dump/
+model/*
+model_2/
+model_new/
+
+preprocessed/
