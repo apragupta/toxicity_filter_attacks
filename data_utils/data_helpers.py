@@ -126,7 +126,8 @@ def batch_iter(data, batch_size, num_epochs):
             yield shuffled_data[start_index:end_index]
 
 
-with open(os.path.join(r'../preprocessing/dump_2/', "train" + "_comm.data"), "rb") as handle:
-    sentences, labels = pickle.load(handle)
-    print(type(sentences))
-    print(type(sentences[0]))
+if __name__ == "__main__":
+    with open(os.path.join(r'../preprocessing/dump_2/', "train" + "_comm.data"), "rb") as handle:
+        sentences, labels = pickle.load(handle)
+        print(type(sentences))
+        print(type(sentences[0]))

@@ -63,11 +63,6 @@ def loadData(dump_folder, data_folder, data_type, verbose=True, type="comments")
     pos_sentences = data_df["pos_tags"].to_list()
     attention = data_df["attention"].to_list()
 
-
-
-
-
-
     # generate features & labels
     x, length, attention = genFeatures(sentences, attention, max_sent_len, vocabulary)
     pos, pos_length = genPOSFeatures(pos_sentences, max_sent_len, pos_vocabulary)
@@ -78,13 +73,13 @@ def loadData(dump_folder, data_folder, data_type, verbose=True, type="comments")
     return x, length, attention, pos, pos_length, y
 
 
-def loadTrainData(dump_folder, data_folder,type="comments"):
-    data = loadData(dump_folder, data_folder,data_type="train", verbose=True,type=type)
+def loadTrainData(dump_folder, data_folder, type="comments"):
+    data = loadData(dump_folder, data_folder, data_type="train", verbose=True, type=type)
     return splitTrainData(data, train_ratio=0.8, verbose=True)
 
 
-def loadTestData(dump_folder, data_folder,type="comments"):
-    return loadData(dump_folder, data_folder,data_type="test", verbose=True,type=type)
+def loadTestData(dump_folder, data_folder, type="comments"):
+    return loadData(dump_folder, data_folder, data_type="test", verbose=True, type=type)
 
 
 def padSents(sentences, max_len, padding_word=pad):

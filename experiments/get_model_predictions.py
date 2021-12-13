@@ -1,12 +1,9 @@
 import sys
 
 import tensorflow as tf
-import numpy as np
 import os
-import pickle
 
-from data_utils.data_helpers import genFeatures, loadVocabEmb
-from data_utils.tag_data_helpers import genPOSFeatures
+from data_utils_v2.data_helpers import loadData, loadVocabEmb
 from experiments import params
 from model.abuse_classifier import AbuseClassifier
 
@@ -35,37 +32,42 @@ tf.flags.DEFINE_boolean("log_device_placement", False, "Log placement of ops on 
 FLAGS = tf.flags.FLAGS
 
 
-def load_vocab():
-    vocabulary, pos_vocabulary, init_embed = loadVocabEmb()
+def load_vocab(dump_folder):
+    vocabulary, pos_vocabulary, init_embed = loadVocabEmb(dump_folder)
     return vocabulary, pos_vocabulary, init_embed
 
 
-def load_data(dump_folder_path, data_type, verbose=True):
-    assert data_type in ["train", "test"]
-    with open(os.path.join(dump_folder_path, "vocab.pkl"), "rb") as handle:
-        vocabulary = pickle.load(handle)
-    with open(os.path.join(dump_folder_path, "pos_vocab.pkl"), "rb") as handle:
-        pos_vocabulary = pickle.load(handle)
-    with open(os.path.join(dump_folder_path, data_type + "_comm.data"), "rb") as handle:
-        sentences, labels = pickle.load(handle)
-    with open(os.path.join(dump_folder_path, data_type + "_comm_pos.data"), "rb") as handle:
-        pos_sentences = pickle.load(handle)
-    with open(os.path.join(dump_folder_path, data_type + "_attention.data"), "rb") as handle:
-        attention = pickle.load(handle)
-    # generate features & labels
-    x, length, attention = genFeatures(sentences, attention, params.max_sent_len, vocabulary)
-    pos, pos_length = genPOSFeatures(pos_sentences, params.max_sent_len, pos_vocabulary)
-    y = np.array(labels)
-    if verbose:
-        print("load {} data, input sent size: {}, input POS size: {}, label size: {}".format(
-            data_type, np.array(x).shape, np.array(pos).shape, np.array(y).shape))
-    x_test, length_test, attention_test, pos_test, pos_length_test, y_test = x, length, attention, pos, pos_length, y
-    return x_test, length_test, attention_test, pos_test, pos_length_test, y_test
+# def load_data(dump_folder_path, data_type, verbose=True):
+#     assert data_type in ["train", "test"]
+#     with open(os.path.join(dump_folder_path, "vocab.pkl"), "rb") as handle:
+#         vocabulary = pickle.load(handle)
+#     with open(os.path.join(dump_folder_path, "pos_vocab.pkl"), "rb") as handle:
+#         pos_vocabulary = pickle.load(handle)
+#     with open(os.path.join(dump_folder_path, data_type + "_comm.data"), "rb") as handle:
+#         sentences, labels = pickle.load(handle)
+#     with open(os.path.join(dump_folder_path, data_type + "_comm_pos.data"), "rb") as handle:
+#         pos_sentences = pickle.load(handle)
+#     with open(os.path.join(dump_folder_path, data_type + "_attention.data"), "rb") as handle:
+#         attention = pickle.load(handle)
+#     # generate features & labels
+#     x, length, attention = genFeatures(sentences, attention, params.max_sent_len, vocabulary)
+#     pos, pos_length = genPOSFeatures(pos_sentences, params.max_sent_len, pos_vocabulary)
+#     y = np.array(labels)
+#     if verbose:
+#         print("load {} data, input sent size: {}, input POS size: {}, label size: {}".format(
+#             data_type, np.array(x).shape, np.array(pos).shape, np.array(y).shape))
+#     x_test, length_test, attention_test, pos_test, pos_length_test, y_test = x, length, attention, pos, pos_length, y
+#     return x_test, length_test, attention_test, pos_test, pos_length_test, y_test
 
 
-def get_predictions(model_path, data_path):
-    vocabulary, pos_vocabulary, init_embed = load_vocab()
-    x_test, length_test, _, pos_test, pos_length_test, y_test = load_data(data_path, "test", verbose=False)
+def get_predictions(model_path, data_path, dump_folder):
+    vocabulary, pos_vocabulary, init_embed = load_vocab(dump_folder)
+    x_test, length_test, _, pos_test, pos_length_test, y_test = loadData(
+        dump_folder,  # dump_folder
+        data_path,  # data_path
+        "test",  # data_type
+        type="sentence"
+    )
 
     with tf.Graph().as_default():
         session_conf = tf.ConfigProto(
@@ -126,10 +128,11 @@ if __name__ == '__main__':
     checkpoint_dir = os.path.abspath(os.path.join(model_folder_path, model_save_folder_name))
     model_path = os.path.join(checkpoint_dir, "best_model")
 
-    data_path = '../test_other_dump'
-    print(f"Using data from {data_path}")
+    data_path = '../preprocessing/dump/'
+    dump_folder = "../preprocessing/dump/"
+    print(f"Using data from {data_path} and dump from {dump_folder}")
 
-    predictions = get_predictions(model_path, data_path)
+    predictions = get_predictions(model_path, data_path, dump_folder)
 
     print("Done")
     print("-" * 100)
