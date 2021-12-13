@@ -1,0 +1,12 @@
+embedding_dim = 300
+pos_vocab_size = 26
+pos_embedding_dim = 25
+dropout_keep_prob = 1
+l2_reg_lambda = 0.2
+hidden_size = 300
+pos_hidden_size = 25
+attention_size = 20
+use_pos_flag = True
+batch_size = 32
+allow_soft_placement = True
+log_device_placement = False

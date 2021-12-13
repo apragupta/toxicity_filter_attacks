@@ -140,3 +140,6 @@ model_2/
 model_new/
 
 preprocessed/
+
+zips/
+.idea/
