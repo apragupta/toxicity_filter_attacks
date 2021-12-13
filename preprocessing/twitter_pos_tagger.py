@@ -27,7 +27,7 @@ def get_pos_of_file(filepath):
     :return:
     """
     p = subprocess.check_output(
-        f"java -XX:ParallelGCThreads=2 -Xmx500m -jar preprocessing/ark-tweet-nlp-0.3.2.jar {filepath}")
+        f"java -XX:ParallelGCThreads=2 -Xmx500m -jar ark-tweet-nlp-0.3.2.jar {filepath}")
 
 
     pos_result = p.decode('utf-8').strip('\n\n')  # get first line, remove final double carriage return
